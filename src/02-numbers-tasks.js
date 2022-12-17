@@ -112,9 +112,11 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (0,1)     => 0
  *   (0,1) (1,2)     => 0
  */
-function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
-  // return Math.atan2(y2 - y1, x2 - x1);
-  throw new Error('Not implemented');
+function getAngleBetweenVectors(x1, y1, x2, y2) {
+  const scalar = x1 * x2 + y1 * y2;
+  const modFirst = Math.sqrt(x1 ** 2 + y1 ** 2);
+  const modSecond = Math.sqrt(x2 ** 2 + y2 ** 2);
+  return Math.acos(scalar / (modFirst * modSecond));
 }
 
 /**
@@ -184,8 +186,9 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 2  => 1700
  *   1678, 3  => 2000
  */
-function roundToPowerOfTen(/* num, pow */) {
-  throw new Error('Not implemented');
+function roundToPowerOfTen(num, pow) {
+  const cof = 10 ** pow;
+  return Math.round(num / cof) * cof;
 }
 
 /**
@@ -205,14 +208,17 @@ function roundToPowerOfTen(/* num, pow */) {
  *   16 => false
  *   17 => true
  */
-function isPrime(/* n */) {
-/*   if ((n % 2 === 0 && n !== 2) || n <= 1) return false;
-  const length = Math.floor(Math.sqrt(n));
-  for (let i = 3; i <= length; i + 1) {
-    if (n % i === 0) return false;
+function isPrime(n) {
+  if (n > 1) {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 2; i <= Math.sqrt(n); i++) {
+      if (n % i === 0) {
+        return false;
+      }
+    }
+    return true;
   }
-  return true; */
-  throw new Error('Not implemented');
+  return false;
 }
 
 /**
