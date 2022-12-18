@@ -113,33 +113,78 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  result: '',
+
+  element(value) {
+    this.throwErr(1);
+    const o = Object.create(cssSelectorBuilder);
+    o.err = 1;
+    o.result = `${this.result}${value}`;
+    return o;
+    // throw new Error('Not implemented');
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    this.throwErr(2);
+    const o = Object.create(cssSelectorBuilder);
+    o.err = 2;
+    o.result = `${this.result}#${value}`;
+    return o;
+    // throw new Error('Not implemented');
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    this.throwErr(3);
+    const o = Object.create(cssSelectorBuilder);
+    o.err = 3;
+    o.result = `${this.result}.${value}`;
+    return o;
+    // throw new Error('Not implemented');
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    this.throwErr(4);
+    const o = Object.create(cssSelectorBuilder);
+    o.err = 4;
+    o.result = `${this.result}[${value}]`;
+    return o;
+    // throw new Error('Not implemented');
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    this.throwErr(5);
+    const o = Object.create(cssSelectorBuilder);
+    o.err = 5;
+    o.result = `${this.result}:${value}`;
+    return o;
+    // throw new Error('Not implemented');
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    this.throwErr(6);
+    const o = Object.create(cssSelectorBuilder);
+    o.err = 6;
+    o.result = `${this.result}::${value}`;
+    return o;
+    // throw new Error('Not implemented');
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(sel1, comb, sel2) {
+    const o = Object.create(cssSelectorBuilder);
+    o.result = `${sel1.result} ${comb} ${sel2.result}`;
+    return o;
+    // throw new Error('Not implemented');
   },
+
+  stringify() {
+    return this.result;
+  },
+
+  throwErr(errId) {
+    if (this.err > errId) throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+    if (this.err === errId && (errId === 1 || errId === 2 || errId === 6)) throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+  },
+
 };
 
 
