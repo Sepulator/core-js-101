@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 /* ********************************************************************************************
  *                                                                                            *
  * Please read the following tutorial before implementing tasks:                               *
@@ -434,16 +433,8 @@ function toStringList(arr) {
  *    ]
  */
 function sortCitiesArray(arr) {
-  const sortBy = (key1, key2) => (a, b) => (a[key1] > b[key1]
-    ? 1
-    : b[key1] > a[key1]
-      ? -1
-      : a[key2] > b[key2]
-        ? 1
-        : a[key2] < b[key2]
-          ? -1
-          : 0);
-  return arr.concat().sort(sortBy('country', 'city'));
+  return arr.sort((a, b) => (((a.country + a.city)
+    > (b.country + b.city)) ? 1 : -1));
 }
 
 /**
