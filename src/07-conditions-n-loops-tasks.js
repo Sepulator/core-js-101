@@ -268,20 +268,20 @@ function reverseInteger(num) {
  */
 function isCreditCardNumber(ccn) {
   const value = String(ccn).split('');
-  let nCheck = 0;
-  let bEven = false;
+  let check = 0;
+  let even = false;
   for (let i = value.length - 1; i >= 0; i -= 1) {
-    let nDigit = parseInt(value[i], 10);
-    if (bEven) {
-      nDigit *= 2;
-      if (nDigit > 9) {
-        nDigit -= 9;
+    let digit = parseInt(value[i], 10);
+    if (even) {
+      digit *= 2;
+      if (digit > 9) {
+        digit -= 9;
       }
     }
-    nCheck += nDigit;
-    bEven = !bEven;
+    check += digit;
+    even = !even;
   }
-  return (nCheck % 10) === 0;
+  return (check % 10) === 0;
 }
 
 /**
@@ -324,8 +324,23 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    ']': '[',
+    '}': '{',
+    ')': '(',
+    '>': '<',
+  };
+  const stack = [];
+  const { length } = str;
+  for (let i = 0; i < length; i += 1) {
+    const el = str[i];
+    const last = stack[stack.length - 1];
+    if (last && last === brackets[el]) {
+      stack.pop();
+    } else { stack.push(el); }
+  }
+  return !stack.length;
 }
 
 /**
@@ -348,8 +363,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return parseInt(num, 10).toString(n);
 }
 
 /**
