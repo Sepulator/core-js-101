@@ -126,11 +126,15 @@ function isTriangle(a, b, c) {
  *
  */
 function doRectanglesOverlap(rect1, rect2) {
-  if ((rect1.left > rect2.left + rect2.width)
-    || (rect1.left + rect1.width < rect2.left)) return false;
+  if (
+    rect1.left > rect2.left + rect2.width
+    || rect1.left + rect1.width < rect2.left
+  ) { return false; }
 
-  if ((rect1.top > rect2.top + rect2.height)
-    || (rect1.top + rect1.height < rect2.top)) return false;
+  if (
+    rect1.top > rect2.top + rect2.height
+    || rect1.top + rect1.height < rect2.top
+  ) { return false; }
 
   return true;
 }
@@ -162,7 +166,8 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-  return (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2 < circle.radius ** 2;
+  return ((point.x - circle.center.x) ** 2
+    + (point.y - circle.center.y) ** 2 < circle.radius ** 2);
 }
 
 /**
@@ -281,7 +286,7 @@ function isCreditCardNumber(ccn) {
     check += digit;
     even = !even;
   }
-  return (check % 10) === 0;
+  return check % 10 === 0;
 }
 
 /**
@@ -299,7 +304,9 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-  const value = String(num).split('').reduce((pv, cv) => pv + +cv, 0);
+  const value = String(num)
+    .split('')
+    .reduce((pv, cv) => pv + +cv, 0);
   return value > 9 ? getDigitalRoot(value) : value;
 }
 
@@ -338,7 +345,9 @@ function isBracketsBalanced(str) {
     const last = stack[stack.length - 1];
     if (last && last === brackets[el]) {
       stack.pop();
-    } else { stack.push(el); }
+    } else {
+      stack.push(el);
+    }
   }
   return !stack.length;
 }
@@ -370,7 +379,7 @@ function toNaryString(num, n) {
 /**
  * Returns the common directory path for specified array of full filenames.
  *
- * @param {array} pathes
+ * @param {array} paths
  * @return {string}
  *
  * @example:
@@ -379,8 +388,17 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(paths) {
+  const result = [];
+  let counter = 0;
+  const array = paths.slice().map((path) => path.split('/'));
+  array[0].forEach((path, i) => {
+    if (array.every((el) => el[i] === path && counter === i)) {
+      result.push(`${path}/`);
+      counter += 1;
+    }
+  });
+  return result.join('');
 }
 
 /**
@@ -401,8 +419,19 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const result = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    result[i] = [];
+    for (let j = 0; j < m2[0].length; j += 1) {
+      let sum = 0;
+      for (let k = 0; k < m1[0].length; k += 1) {
+        sum += m1[i][k] * m2[k][j];
+      }
+      result[i][j] = sum;
+    }
+  }
+  return result;
 }
 
 /**
@@ -435,8 +464,31 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const win = [
+    ['00', '01', '02'],
+    ['10', '11', '12'],
+    ['20', '21', '22'],
+    ['00', '10', '20'],
+    ['01', '11', '21'],
+    ['02', '12', '22'],
+    ['00', '11', '22'],
+    ['02', '11', '20'],
+  ];
+
+  let result;
+
+  win.forEach((element) => {
+    const [x, y, z] = element;
+    const [i, j] = x.split('');
+    const [k, l] = y.split('');
+    const [n, m] = z.split('');
+    if (position[i][j] === 'X' && position[k][l] === 'X'
+      && position[n][m] === 'X') result = 'X';
+    if (position[i][j] === '0' && position[k][l] === '0'
+      && position[n][m] === '0') result = '0';
+  });
+  return result;
 }
 
 module.exports = {
